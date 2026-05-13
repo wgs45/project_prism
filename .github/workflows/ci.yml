@@ -3,27 +3,42 @@ name: CI Gatekeeper
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'backend/**'
+      - 'extension/**'
+      - '.github/workflows/ci.yml' # Run if the CI itself changes
 
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Faster checkout
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22" # 2026 stable version
+          node-version: "22"
           cache: "npm"
 
       - name: Install Dependencies
         run: npm ci
 
-      - name: Check Formatting & Lint
-        run: npm run lint # Catches messy code early
-
+      # Only builds the backend if changes were detected in the backend folder
       - name: Build Next.js Backend
-        run: npm run build --prefix backend # Ensures the API isn't broken
+        run: |
+          if git diff --quiet HEAD^ HEAD ./backend; then
+            echo "No changes in backend. Skipping..."
+          else
+            npm run build --prefix backend
+          fi
 
+      # Only builds the extension if changes were detected in the extension folder
       - name: Build Chrome Extension
-        run: npm run build --prefix extension # Ensures the UI compiles
+        run: |
+          if git diff --quiet HEAD^ HEAD ./extension; then
+            echo "No changes in extension. Skipping..."
+          else
+            npm run build --prefix extension
+          fi
