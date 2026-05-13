@@ -1,0 +1,29 @@
+name: CI Gatekeeper
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22" # 2026 stable version
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Check Formatting & Lint
+        run: npm run lint # Catches messy code early
+
+      - name: Build Next.js Backend
+        run: npm run build --prefix backend # Ensures the API isn't broken
+
+      - name: Build Chrome Extension
+        run: npm run build --prefix extension # Ensures the UI compiles
