@@ -20,5 +20,5 @@ RUN pnpm install --no-frozen-lockfile
 # 5. FINISH - Copy the rest of the frontend code
 COPY frontend/ .
 
-EXPOSE 3000
+EXPOSE 5173
 CMD ["pnpm", "dev"]

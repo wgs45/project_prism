@@ -16,13 +16,13 @@ services:
   frontend:
     environment:
       - HOST=0.0.0.0
-      - PORT=3000
+      - PORT=5173
       - NODE_ENV=development
     build:
       context: . # <--- Look at the root folder
       dockerfile: frontend/Dockerfile
     ports:
-      - "3000:3000"
+      - "5173:5173"
     volumes:
       - ./frontend:/app
       - /app/node_modules
