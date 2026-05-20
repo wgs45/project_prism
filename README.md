@@ -51,6 +51,35 @@ http://localhost:YourPortNumber
 
 ✅ The project should now be running successfully.
 
+## Setup Chrome extension
+
+1. Find frontend container id
+
+```bash
+docker ps
+```
+
+1. Pack source code into chrome extension
+
+```bash
+docker exec -it <Docker_frontend_container_ID> pnpm run build
+```
+
+1. Open Chrome browser, then navigate to extension setting page
+
+2. Enable Developer Mode, click load unpack
+
+3. Browse project file and choose this specific path, then click ok
+
+```bash
+project_prism/frontend/dist
+```
+
+✅ The extension should appear now on your browser.
+
+> [!NOTE]
+> dist directory only appear upon successful pnpm run build.
+
 ---
 
 ## Stop the Project
@@ -131,7 +160,3 @@ git push origin your-branch-name
 
 If you have any questions, feel free to ask in the group.
 Happy coding everyone 🚀
-
-```
-
-```

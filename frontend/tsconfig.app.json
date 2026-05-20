@@ -4,8 +4,10 @@
     "target": "es2023",
     "lib": ["ES2023", "DOM"],
     "module": "esnext",
-    "types": ["vite/client"],
+    "types": ["vite/client", "chrome"],
     "skipLibCheck": true,
+    // Include both the default node_modules path and the @types path
+    "typeRoots": ["./node_modules", "./node_modules/@types"],
 
     /* Bundler mode */
     "moduleResolution": "bundler",
